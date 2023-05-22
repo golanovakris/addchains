@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Network to MetaMask</title>
+    <script>
+    async function addNetwork(network) {
+    let ethereum = window.ethereum;
+    if (ethereum && ethereum.isMetaMask) {
+        try {
+            // Преобразование chainId в шестнадцатеричную систему счисления
+            let networkCopy = {...network, chainId: "0x" + parseInt(network.chainId).toString(16)};
+            await ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [networkCopy]
+            });
+            alert("Network added successfully!");
+        } catch (error) {
+            console.log(error);
+            alert("An error occurred: " + error.message);
+        }
+    } else {
+        alert('MetaMask is not installed!');
+    }
+}
+
+    async function loadNetworks() {
+        let response = await fetch('networks.json');
+        let networks = await response.json();
+
+        let buttonContainer = document.getElementById('buttonContainer');
+
+        for (let i = 0; i < networks.length; i++) {
+            let button = document.createElement('button');
+            button.textContent = "Add " + networks[i].chainName;
+            button.onclick = function() {
+                addNetwork(networks[i]);
+            };
+            buttonContainer.appendChild(button);
+        }
+
+        let addAllButton = document.createElement('button');
+        addAllButton.textContent = "Add All Networks";
+        addAllButton.onclick = function() {
+            for (let i = 0; i < networks.length; i++) {
+                addNetwork(networks[i]);
+            }
+        };
+        buttonContainer.appendChild(addAllButton);
+    }
+
+    window.onload = loadNetworks;
+    </script>
+</head>
+<body>
+    <div id="buttonContainer">
+        <!-- Кнопки будут добавлены здесь -->
+    </div>
+</body>
+</html>
