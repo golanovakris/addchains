@@ -1,0 +1,13 @@
+[
+    {
+        "chainId": "43114",
+        "chainName": "AVAX",
+        "nativeCurrency": {
+            "name": "AVAX",
+            "symbol": "AVAX",
+            "decimals": 18
+        },
+        "rpcUrls": ["https://....."],
+        "blockExplorerUrls": ["https://snowtrace.io/"]
+    }
+]
